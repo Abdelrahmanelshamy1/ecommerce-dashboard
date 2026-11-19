@@ -9,14 +9,13 @@ import AppNavBar from "./components/AppNavbar";
 export default function App() {
   return (
     <Container>
-      <AppNavBar>
+      <AppNavBar />
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/products" Component={Products} />
           <Route path="/product/:id" Component={ProductDetails} />
           <Route path="/login" Component={Login} />
         </Routes>
-      </AppNavBar>
     </Container>
   );
 }
