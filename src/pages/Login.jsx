@@ -3,11 +3,26 @@ import { Form, Button } from "react-bootstrap";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("Username:", username);
         console.log("Password:", password);
-    }
+        const response = await fetch("https://dummyjson.com/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        });
+        const data = await response.json();
+        console.log("Response:", data);
+        localStorage.setItem("token", data.accessToken);
+    };
+
   return (
     <div className="Login">
       <h1>Login</h1>
