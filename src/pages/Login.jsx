@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
+    const navigate = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("Username:", username);
@@ -24,7 +26,7 @@ export default function Login() {
         if (response.ok) {
             localStorage.setItem("token", data.accessToken);
             toast.success("Login successful!");
-
+            navigate("/");
         } else {
             toast.error("Login failed: " + data.message);
         }
