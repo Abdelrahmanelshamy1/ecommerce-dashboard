@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import toast from "react-hot-toast";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,7 +21,13 @@ export default function Login() {
         });
         const data = await response.json();
         console.log("Response:", data);
-        localStorage.setItem("token", data.accessToken);
+        if (response.ok) {
+            localStorage.setItem("token", data.accessToken);
+            toast.success("Login successful!");
+
+        } else {
+            toast.error("Login failed: " + data.message);
+        }
     };
 
   return (

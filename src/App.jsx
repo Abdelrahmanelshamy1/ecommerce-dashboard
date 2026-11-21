@@ -5,10 +5,12 @@ import Products from "./pages/Products";
 import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 import AppNavBar from "./components/AppNavbar";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
     <Container>
+      <Toaster />
       <AppNavBar />
         <Routes>
           <Route path="/" Component={Home} />
