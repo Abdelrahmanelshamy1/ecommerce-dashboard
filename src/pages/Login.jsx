@@ -2,33 +2,25 @@ import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Username:", username);
-        console.log("Password:", password);
-        const response = await fetch("https://dummyjson.com/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
-        });
-        const data = await response.json();
-        console.log("Response:", data);
-        if (response.ok) {
-            localStorage.setItem("token", data.accessToken);
-            toast.success("Login successful!");
-            navigate("/");
-        } else {
-            toast.error("Login failed: " + data.message);
+        setLoading(true);
+        try {
+          const response = await api.post("/auth/login", { username, password });
+          localStorage.setItem("token", response.data.accessToken)
+          toast.success("Login successful!");
+          navigate("/");
+        } catch (error){
+          toast.error("Login failed: " + error.response.data.message);
+        } finally {
+          setLoading(false);
         }
     };
 
@@ -44,7 +36,9 @@ export default function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
         </Form.Group>
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </Button>
       </Form>
     </div>
   );

@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import AppNavBar from "./components/AppNavbar";
 import { Toaster } from "react-hot-toast";
 import { useEffect,useState } from "react";
+import { api } from "./api/api";
 
 export default function App() {
   const [userData, setUserData] = useState(null);
@@ -15,21 +16,15 @@ export default function App() {
     const token = localStorage.getItem("token");
     if (token) {
       const getUserData = async () => {
-        const reponse = await fetch("https://dummyjson.com/auth/me", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          
-          },
-        });
-        const data = await reponse.json();
-        if (data.ok){
-          console.log("User data:", data);
-          setUserData(data);
-        } else{
-          console.log("Failed to fetch user data:", data);
+        try {
+          const response = await api.get("/auth/me", { 
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setUserData(response.data);
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+          localStorage.removeItem("token");
         }
-
-
       }
       getUserData();
     }
