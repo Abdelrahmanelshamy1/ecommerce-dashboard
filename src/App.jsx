@@ -1,7 +1,8 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProductDetails from "./pages/ProductDetails";
+import ProductCard from "./components/ProductCard";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 import AppNavBar from "./components/AppNavbar";
