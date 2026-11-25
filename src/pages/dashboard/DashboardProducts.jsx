@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DashboardNav from "../../components/DashboardNav";
 import { api } from "../../api/api";
-import { Table, Button, Form } from "react-bootstrap";
+import { Table, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 
@@ -66,17 +66,34 @@ export default function DashboardProducts() {
         getProducts();
     }, [])
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return (
+        <div className="loading-box">
+            <Spinner animation="border" variant="primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </div>
+    );
     return (
         <>
             <DashboardNav />
-            <h1>Products Dashboard</h1>
+            <h1 className="page-title">Products Dashboard</h1>
+            <div className="dashboard-panel souq-surface">
             <Form onSubmit={handleSubmit}>
-                <Form.Control placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
-                <Form.Control type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                <Button type="submit">{editingID ? "Save changes" : "Add product"}</Button>
+                <Row className="g-3">
+                    <Col xs={12} md={6}>
+                        <Form.Control placeholder="Title" aria-label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Form.Control type="number" placeholder="Price" aria-label="Price" value={price} onChange={(e) => setPrice(e.target.value)}/>
+                    </Col>
+                    <Col xs={12} sm={6} md={3} className="d-grid">
+                        <Button type="submit">{editingID ? "Save changes" : "Add product"}</Button>
+                    </Col>
+                </Row>
             </Form>
-            <Table>
+            </div>
+            <div className="table-surface souq-surface">
+            <Table hover striped responsive>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -94,17 +111,20 @@ export default function DashboardProducts() {
                                 <td>${product.price.toFixed(2)}</td>
                                 <td>{product.category}</td>
                                 <td>
-                                    <Button onClick={() => handleDelete(product.id)}>
+                                    <div className="table-actions">
+                                    <Button variant="outline-danger" size="sm" onClick={() => handleDelete(product.id)}>
                                         Remove
                                     </Button>
-                                    <Button onClick={() => handleEdit(product)}>
+                                    <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(product)}>
                                         Edit
                                     </Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
             </Table>
+            </div>
         </>
     )
 }

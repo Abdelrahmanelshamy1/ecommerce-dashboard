@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { api } from "../api/api";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col, Badge, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -42,47 +42,65 @@ export default function ProductDetails() {
         return (
         <>
             {loading ? (
-                <p>Loading...</p>
+                <div className="loading-box">
+                    <Spinner animation="border" variant="primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
             ) : !product ? (
-                <p>Product not found.</p>
+                <p className="text-center text-muted py-5">Product not found.</p>
             ) : (
-                <div>
-                    <img src={product.thumbnail} alt={product.title} />
-                    {product.images.map((image, index) => (
-                        <div key={index}>
-                            <img src={image} alt={product.title} width="100" />
-                        </div>
-                    ))}
-                    <h1>{product.title}</h1>
-                    <p>{product.description}</p>
-                    <p>Price: ${product.price.toFixed(2)}</p>
-                    <p>{product.discountPercentage}% off</p>
-                    <p>Category: {product.category}</p>
-                    {product.brand && <p>Brand: {product.brand}</p>}
-                    <p>Rating: {product.rating}</p>
-                    <p>{product.availabilityStatus} ({product.stock} in stock)</p>
-                    <p>Minimum order: {product.minimumOrderQuantity}</p>
-                    <p>Tags: {product.tags.join(", ")}</p>
-                    <p>Warranty: {product.warrantyInformation}</p>
-                    <p>Shipping: {product.shippingInformation}</p>
-                    <p>Return policy: {product.returnPolicy}</p>
-                    <p>Weight: {product.weight}</p>
-                    <p>
-                        Dimensions: {product.dimensions.width} x {product.dimensions.height} x {product.dimensions.depth}
-                    </p>
-                    <Button variant="primary" onClick={handleAddToCart}>
-                        Add to Cart
-                    </Button>
+                <div className="mt-4">
+                    <Row className="g-4">
+                        <Col xs={12} md={6}>
+                            <img className="details-main-img" src={product.thumbnail} alt={product.title} />
+                            <div className="details-thumbs">
+                                {product.images.map((image, index) => (
+                                    <div key={index}>
+                                        <img src={image} alt={product.title} width="100" />
+                                    </div>
+                                ))}
+                            </div>
+                        </Col>
+                        <Col xs={12} md={6} className="details-info">
+                            <h1>{product.title}</h1>
+                            <p className="text-muted">{product.description}</p>
+                            <p className="details-price">Price: ${product.price.toFixed(2)}</p>
+                            <p><Badge bg="danger">{product.discountPercentage}% off</Badge></p>
+                            <p><Badge bg="light" text="dark" className="border">Category: {product.category}</Badge></p>
+                            {product.brand && <p>Brand: {product.brand}</p>}
+                            <p><span className="star">★</span> Rating: {product.rating}</p>
+                            <p className="fw-semibold text-success">{product.availabilityStatus} ({product.stock} in stock)</p>
+                            <div className="details-specs souq-surface">
+                                <p>Minimum order: {product.minimumOrderQuantity}</p>
+                                <p>Tags: {product.tags.join(", ")}</p>
+                                <p>Warranty: {product.warrantyInformation}</p>
+                                <p>Shipping: {product.shippingInformation}</p>
+                                <p>Return policy: {product.returnPolicy}</p>
+                                <p>Weight: {product.weight}</p>
+                                <p className="mb-0">
+                                    Dimensions: {product.dimensions.width} x {product.dimensions.height} x {product.dimensions.depth}
+                                </p>
+                            </div>
+                            <Button variant="primary" size="lg" className="w-100" onClick={handleAddToCart}>
+                                Add to Cart
+                            </Button>
+                        </Col>
+                    </Row>
 
-                    <h2>Reviews</h2>
-                    {product.reviews.map((review, index) => (
-                        <div key={index}>
-                            <p>
-                                <b>{review.reviewerName}</b> rated it {review.rating}/5
-                            </p>
-                            <p>{review.comment}</p>
-                        </div>
-                    ))}
+                    <h2 className="section-title">Reviews</h2>
+                    <Row>
+                        <Col xs={12} lg={8}>
+                            {product.reviews.map((review, index) => (
+                                <div key={index} className="review-card souq-surface">
+                                    <p>
+                                        <b>{review.reviewerName}</b> rated it <span className="star">★</span> {review.rating}/5
+                                    </p>
+                                    <p className="text-muted">{review.comment}</p>
+                                </div>
+                            ))}
+                        </Col>
+                    </Row>
                 </div>
             )}
         </>

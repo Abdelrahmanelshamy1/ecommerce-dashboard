@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DashboardNav from "../../components/DashboardNav";
 import { api } from "../../api/api";
-import { Table, Button, Form } from "react-bootstrap";
+import { Table, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 const LIMIT = 10;
@@ -102,34 +102,57 @@ export default function DashboardUsers() {
     return (
         <>
             <DashboardNav />
-            <h1>Users Dashboard</h1>
+            <h1 className="page-title">Users Dashboard</h1>
 
+            <div className="dashboard-panel souq-surface">
             <h2>{editingId ? `Edit user ${editingId}` : "Add a user"}</h2>
             <Form onSubmit={handleSubmit}>
-                <Form.Control placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-                <Form.Control placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-                <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <Form.Control type="number" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} required />
-                <Button type="submit">{editingId ? "Save Changes" : "Add User"}</Button>
+                <Row className="g-3">
+                    <Col xs={12} sm={6} lg={3}>
+                        <Form.Control placeholder="First name" aria-label="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                    </Col>
+                    <Col xs={12} sm={6} lg={3}>
+                        <Form.Control placeholder="Last name" aria-label="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                    </Col>
+                    <Col xs={12} sm={8} lg={3}>
+                        <Form.Control type="email" placeholder="Email" aria-label="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </Col>
+                    <Col xs={12} sm={4} lg={1}>
+                        <Form.Control type="number" placeholder="Age" aria-label="Age" value={age} onChange={(e) => setAge(e.target.value)} required />
+                    </Col>
+                    <Col xs={12} lg={2} className="d-grid">
+                        <Button type="submit">{editingId ? "Save Changes" : "Add User"}</Button>
+                    </Col>
+                </Row>
             </Form>
+            </div>
 
             {selectedUser && (
-                <div>
+                <div className="dashboard-panel detail-panel souq-surface">
                     <h2>{selectedUser.firstName} {selectedUser.lastName}</h2>
-                    <p>Username: {selectedUser.username}</p>
-                    <p>Email: {selectedUser.email}</p>
-                    <p>Phone: {selectedUser.phone}</p>
-                    <p>Age: {selectedUser.age}</p>
-                    <p>Gender: {selectedUser.gender}</p>
-                    <p>Birth date: {selectedUser.birthDate}</p>
-                    <p>Address: {selectedUser.address.address}, {selectedUser.address.city}</p>
-                    <p>Company: {selectedUser.company.name} ({selectedUser.company.title})</p>
-                    <Button onClick={() => setSelectedUser(null)}>Close</Button>
+                    <Row className="small">
+                        <Col xs={12} md={6}>
+                            <p className="mb-1">Username: {selectedUser.username}</p>
+                            <p className="mb-1">Email: {selectedUser.email}</p>
+                            <p className="mb-1">Phone: {selectedUser.phone}</p>
+                            <p className="mb-1">Age: {selectedUser.age}</p>
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <p className="mb-1">Gender: {selectedUser.gender}</p>
+                            <p className="mb-1">Birth date: {selectedUser.birthDate}</p>
+                            <p className="mb-1">Address: {selectedUser.address.address}, {selectedUser.address.city}</p>
+                            <p className="mb-1">Company: {selectedUser.company.name} ({selectedUser.company.title})</p>
+                        </Col>
+                    </Row>
+                    <Button variant="outline-secondary" size="sm" className="mt-3" onClick={() => setSelectedUser(null)}>Close</Button>
                 </div>
             )}
 
+            <Row className="g-3 mb-3">
+            <Col xs={12} sm={8} md={6}>
             <Form.Control
                 placeholder="Search users..."
+                aria-label="Search users"
                 value={query}
                 onChange={(e) => {
                     setQuery(e.target.value);
@@ -137,7 +160,10 @@ export default function DashboardUsers() {
                     setPage(1);
                 }}
             />
+            </Col>
+            <Col xs={12} sm={4} md={3}>
             <Form.Select
+                aria-label="Gender"
                 value={gender}
                 onChange={(e) => {
                     setGender(e.target.value);
@@ -149,12 +175,19 @@ export default function DashboardUsers() {
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </Form.Select>
+            </Col>
+            </Row>
             {loading ? (
-                <p>Loading...</p>
+                <div className="loading-box">
+                    <Spinner animation="border" variant="primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
             ) : (
                 <>
-                    {users.length === 0 && <p>No users found.</p>}
-                    <Table>
+                    {users.length === 0 && <p className="text-center text-muted py-4">No users found.</p>}
+                    <div className="table-surface souq-surface">
+                    <Table hover striped responsive>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -174,24 +207,29 @@ export default function DashboardUsers() {
                                     <td>{user.age}</td>
                                     <td>{user.gender}</td>
                                     <td>
-                                        <Button onClick={() => handleView(user.id)}>View</Button>
-                                        <Button onClick={() => handleEdit(user)}>Edit</Button>
-                                        <Button onClick={() => handleDelete(user.id)}>Delete</Button>
+                                        <div className="table-actions">
+                                        <Button variant="outline-primary" size="sm" onClick={() => handleView(user.id)}>View</Button>
+                                        <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(user)}>Edit</Button>
+                                        <Button variant="outline-danger" size="sm" onClick={() => handleDelete(user.id)}>Delete</Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </Table>
+                    </div>
                     {totalPages > 1 && (
-                        <>
-                            <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+                        <div className="pagination-bar">
+                            <div className="d-flex justify-content-center gap-2">
+                            <Button variant="outline-primary" onClick={() => setPage(page - 1)} disabled={page === 1}>
                                 Previous
                             </Button>
-                            <Button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
+                            <Button variant="outline-primary" onClick={() => setPage(page + 1)} disabled={page === totalPages}>
                                 Next
                             </Button>
-                            <p>Page {page} of {totalPages}</p>
-                        </>
+                            </div>
+                            <p className="text-muted small mt-2 mb-0">Page {page} of {totalPages}</p>
+                        </div>
                     )}
                 </>
             )}

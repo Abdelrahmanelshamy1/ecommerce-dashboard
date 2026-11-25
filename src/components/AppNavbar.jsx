@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
+import { Navbar, Nav, Button, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -13,53 +13,58 @@ export default function AppNavbar() {
     return (
         <>
             {user && (
-                <div>
+                <div className="welcome-bar">
                     <p>Welcome, {user.firstName}!</p>
                 </div>
             )}
-            <Navbar collapseOnSelect expand="lg">
-                <Navbar.Brand as={Link} to="/">E-commerce</Navbar.Brand>
+            <Navbar collapseOnSelect expand="lg" className="souq-navbar">
+                <Navbar.Brand as={Link} to="/">
+                    <img src="/souqly-logo.svg" alt="" />
+                    Souqly
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="main-nav" />
                 <Navbar.Collapse id="main-nav">
-                    <Nav>
-                        <Nav.Link eventKey="home" as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link eventKey="products" as={Link} to="/products">Products</Nav.Link>
+                    <Nav className="me-auto">
+                        <Nav.Link eventKey="home" as={NavLink} to="/" end>Home</Nav.Link>
+                        <Nav.Link eventKey="products" as={NavLink} to="/products">Products</Nav.Link>
                     </Nav>
+                    <div className="nav-actions">
+                        {user && (
+                            <>
+                            <Button variant="outline-primary" onClick={() => {
+                                navigate("/cart");
+                            }}>
+                                Cart <Badge bg="warning" text="dark" pill>{cartItems.length}</Badge>
+                            </Button>
+                            <Button variant="primary" onClick={() => navigate("/dashboard/products")}>
+                                Dashboard
+                            </Button>
+                            <Button variant="outline-secondary" onClick={() => {
+                                localStorage.removeItem("token");
+                                dispatch(logout());
+                                navigate("/login");
+                            }}>
+                                Logout
+                            </Button>
+                            </>
+                        )}
+                        {!user && (
+                            <>
+                            <Button variant="outline-primary" onClick={() => {
+                                navigate("/login");
+                            }}>
+                                Login
+                            </Button>
+                            <Button variant="primary" onClick={() => {
+                                navigate("/register");
+                            }}>
+                                Register
+                            </Button>
+                            </>
+                        )}
+                    </div>
                 </Navbar.Collapse>
             </Navbar>
-            {user && (
-                <>
-                <Button onClick={() => {
-                    localStorage.removeItem("token");
-                    dispatch(logout());
-                    navigate("/login");
-                }}>
-                    Logout
-                </Button>
-                <Button onClick={() => {
-                    navigate("/cart");
-                }}>
-                    Cart {cartItems.length}
-                </Button>
-                <Button onClick={() => navigate("/dashboard/products")}>
-                    Dashboard
-                </Button>
-                </>
-            )}
-            {!user && (
-                <>
-                <Button onClick={() => {
-                    navigate("/login");
-                }}>
-                    Login
-                </Button>
-                <Button onClick={() => {
-                    navigate("/register");
-                }}>
-                    Register
-                </Button>
-                </>
-            )}
         </>
     );
 }

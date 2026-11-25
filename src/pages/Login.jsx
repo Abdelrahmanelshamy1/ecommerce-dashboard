@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api";
@@ -29,21 +29,25 @@ export default function Login() {
     };
 
   return (
-    <div className="Login">
+    <Row className="justify-content-center">
+    <Col xs={12} sm={10} md={7} lg={5}>
+    <div className="Login auth-card souq-surface">
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
-        <Form.Group>
+        <Form.Group className="mb-3" controlId="login-username">
             <Form.Label>Username</Form.Label>
             <Form.Control type="text" value={username} onChange={(event) => setUsername(event.target.value)} required/>
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="mb-4" controlId="login-password">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
         </Form.Group>
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="w-100" size="lg">
           {loading ? "Logging in..." : "Login"}
         </Button>
       </Form>
     </div>
+    </Col>
+    </Row>
   );
 }

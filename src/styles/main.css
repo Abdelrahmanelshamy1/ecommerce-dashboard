@@ -1,0 +1,497 @@
+/* =========================================================
+   Souqly - global theme (loaded after Bootstrap in main.jsx)
+   ========================================================= */
+
+:root {
+  --souq-primary: #0f766e;
+  --souq-primary-dark: #115e59;
+  --souq-primary-soft: #e6f4f2;
+  --souq-accent: #f59e0b;
+  --souq-bg: #f5f7f6;
+  --souq-text: #1f2937;
+  --souq-muted: #6b7280;
+  --souq-border: #e5e7eb;
+  --souq-radius: 14px;
+  --souq-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 16px rgba(16, 24, 40, 0.06);
+  --souq-shadow-hover: 0 8px 28px rgba(16, 24, 40, 0.12);
+
+  /* Bootstrap overrides */
+  --bs-primary: var(--souq-primary);
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-link-color: var(--souq-primary);
+  --bs-link-color-rgb: 15, 118, 110;
+  --bs-link-hover-color: var(--souq-primary-dark);
+  --bs-link-hover-color-rgb: 17, 94, 89;
+  --bs-body-bg: var(--souq-bg);
+  --bs-body-color: var(--souq-text);
+  --bs-border-radius: 10px;
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: var(--souq-bg);
+  color: var(--souq-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root > .container {
+  padding-bottom: 3rem;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--souq-primary);
+  --bs-btn-border-color: var(--souq-primary);
+  --bs-btn-hover-bg: var(--souq-primary-dark);
+  --bs-btn-hover-border-color: var(--souq-primary-dark);
+  --bs-btn-active-bg: var(--souq-primary-dark);
+  --bs-btn-active-border-color: var(--souq-primary-dark);
+  --bs-btn-disabled-bg: var(--souq-primary);
+  --bs-btn-disabled-border-color: var(--souq-primary);
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--souq-primary);
+  --bs-btn-border-color: var(--souq-primary);
+  --bs-btn-hover-bg: var(--souq-primary);
+  --bs-btn-hover-border-color: var(--souq-primary);
+  --bs-btn-active-bg: var(--souq-primary-dark);
+  --bs-btn-active-border-color: var(--souq-primary-dark);
+  --bs-btn-disabled-color: var(--souq-primary);
+  --bs-btn-disabled-border-color: var(--souq-primary);
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+}
+
+/* ---------- Forms ---------- */
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border-color: var(--souq-border);
+  padding: 0.6rem 0.85rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--souq-primary);
+  box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.15);
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--souq-muted);
+}
+
+/* ---------- Generic surfaces ---------- */
+.souq-surface {
+  background: #fff;
+  border: 1px solid var(--souq-border);
+  border-radius: var(--souq-radius);
+  box-shadow: var(--souq-shadow);
+}
+
+.card {
+  border-color: var(--souq-border);
+  border-radius: var(--souq-radius);
+}
+
+.page-title {
+  margin: 1.75rem 0 1.25rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1.25rem;
+}
+
+/* ---------- Top welcome bar + Navbar ---------- */
+.welcome-bar {
+  background: var(--souq-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0 0 10px 10px;
+}
+
+.welcome-bar p {
+  margin: 0;
+}
+
+.souq-navbar {
+  background: #fff;
+  border: 1px solid var(--souq-border);
+  border-radius: var(--souq-radius);
+  box-shadow: var(--souq-shadow);
+  padding: 0.6rem 1rem;
+  margin-top: 0.75rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 1020;
+}
+
+.souq-navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--souq-primary);
+  letter-spacing: -0.03em;
+}
+
+.souq-navbar .navbar-brand img {
+  width: 32px;
+  height: 32px;
+}
+
+.souq-navbar .nav-link {
+  font-weight: 500;
+  color: var(--souq-text);
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem !important;
+}
+
+.souq-navbar .nav-link:hover,
+.souq-navbar .nav-link.active {
+  color: var(--souq-primary);
+  background: var(--souq-primary-soft);
+}
+
+.souq-navbar .nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .souq-navbar .nav-actions {
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--souq-border);
+  }
+}
+
+/* ---------- Hero (Home) ---------- */
+.hero {
+  margin-top: 1.5rem;
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  color: #fff;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.45), transparent 45%),
+    linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+  box-shadow: var(--souq-shadow);
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  max-width: 640px;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+}
+
+.hero .btn {
+  background: var(--souq-accent);
+  border-color: var(--souq-accent);
+  color: #1f2937;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+}
+
+.hero .btn:hover {
+  background: #d97706;
+  border-color: #d97706;
+  color: #fff;
+}
+
+@media (max-width: 575.98px) {
+  .hero {
+    padding: 2.5rem 1.25rem;
+  }
+}
+
+/* ---------- Product card ---------- */
+.ProductCard {
+  height: 100%;
+  overflow: hidden;
+  box-shadow: var(--souq-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ProductCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--souq-shadow-hover);
+}
+
+.ProductCard .card-img-top {
+  height: 200px;
+  object-fit: contain;
+  background: #f9fafb;
+  padding: 1rem;
+  border-bottom: 1px solid var(--souq-border);
+}
+
+.ProductCard .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.ProductCard .card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ProductCard .card-text {
+  font-size: 0.875rem;
+  color: var(--souq-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ProductCard .product-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--souq-primary);
+  margin-bottom: 0.25rem;
+}
+
+.ProductCard .product-rating {
+  font-size: 0.875rem;
+  color: var(--souq-muted);
+  margin-bottom: 0.5rem;
+}
+
+.ProductCard .product-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ProductCard .product-actions .btn {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.star {
+  color: var(--souq-accent);
+}
+
+/* ---------- Filters (Products / dashboards) ---------- */
+.filter-bar {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.pagination-bar {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination-bar .btn {
+  min-width: 44px;
+}
+
+/* ---------- Product details ---------- */
+.details-main-img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--souq-border);
+  border-radius: var(--souq-radius);
+  padding: 1.5rem;
+}
+
+.details-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.details-thumbs > div {
+  background: #fff;
+  border: 1px solid var(--souq-border);
+  border-radius: 10px;
+  padding: 0.25rem;
+}
+
+.details-thumbs img {
+  display: block;
+  height: 72px;
+  width: 72px;
+  object-fit: contain;
+}
+
+.details-price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--souq-primary);
+  margin-bottom: 0.25rem;
+}
+
+.details-info p {
+  margin-bottom: 0.4rem;
+}
+
+.details-specs {
+  padding: 1rem 1.25rem;
+  margin: 1rem 0 1.25rem;
+  font-size: 0.925rem;
+}
+
+.details-specs p {
+  margin-bottom: 0.35rem;
+}
+
+.review-card {
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.review-card p {
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- Auth pages ---------- */
+.auth-card {
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.auth-card h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--souq-primary);
+}
+
+@media (max-width: 575.98px) {
+  .auth-card {
+    margin: 1.5rem auto;
+    padding: 1.25rem;
+  }
+}
+
+/* ---------- Tables ---------- */
+.table-surface {
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.table-surface .table {
+  margin-bottom: 0;
+}
+
+.table > thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--souq-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+}
+
+/* ---------- Cart ---------- */
+.cart-summary {
+  padding: 1.5rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  margin-top: 2rem;
+}
+
+/* ---------- Dashboard ---------- */
+.dashboard-nav {
+  margin-top: 1.5rem;
+  padding: 0.5rem;
+  gap: 0.25rem;
+  --bs-nav-pills-link-active-bg: var(--souq-primary);
+}
+
+.dashboard-nav .nav-link {
+  color: var(--souq-text);
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.dashboard-nav .nav-link:hover {
+  color: var(--souq-primary);
+}
+
+.dashboard-nav .nav-link.active {
+  color: #fff;
+}
+
+.dashboard-panel {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-panel h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.detail-panel {
+  border-left: 4px solid var(--souq-primary);
+}
+
+/* ---------- Not found ---------- */
+.not-found {
+  text-align: center;
+  padding: 5rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.not-found .not-found-code {
+  font-size: clamp(4rem, 15vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--souq-primary);
+  opacity: 0.15;
+}
+
+/* ---------- Loading ---------- */
+.loading-box {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}

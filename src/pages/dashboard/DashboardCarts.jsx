@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DashboardNav from "../../components/DashboardNav";
 import { api } from "../../api/api";
-import { Table, Button, Form } from "react-bootstrap";
+import { Table, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 export default function DashboardCarts() {
@@ -89,39 +89,54 @@ export default function DashboardCarts() {
     return (
         <>
             <DashboardNav />
-            <h1>Carts Dashboard</h1>
+            <h1 className="page-title">Carts Dashboard</h1>
 
+            <div className="dashboard-panel souq-surface">
             <h2>{editingId ? `Update cart ${editingId}` : "Add a cart"}</h2>
             <Form onSubmit={handleSubmit}>
+                <Row className="g-3">
+                <Col xs={12} sm={4} md={3}>
                 <Form.Control
                     type="number"
                     placeholder="User ID"
+                    aria-label="User ID"
                     value={formUserId}
                     onChange={(e) => setFormUserId(e.target.value)}
                     disabled={editingId !== null}
                     required
                 />
+                </Col>
+                <Col xs={12} sm={4} md={3}>
                 <Form.Control
                     type="number"
                     placeholder="Product ID"
+                    aria-label="Product ID"
                     value={productId}
                     onChange={(e) => setProductId(e.target.value)}
                     required
                 />
+                </Col>
+                <Col xs={12} sm={4} md={3}>
                 <Form.Control
                     type="number"
                     placeholder="Quantity"
+                    aria-label="Quantity"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                     required
                 />
+                </Col>
+                <Col xs={12} md={3} className="d-grid">
                 <Button type="submit">{editingId ? "Save Changes" : "Add Cart"}</Button>
+                </Col>
+                </Row>
             </Form>
+            </div>
 
             {selectedCart && (
-                <div>
+                <div className="dashboard-panel detail-panel souq-surface">
                     <h2>Cart {selectedCart.id} details (User {selectedCart.userId})</h2>
-                    <Table>
+                    <Table hover responsive size="sm">
                         <thead>
                             <tr>
                                 <th>Product</th>
@@ -141,21 +156,31 @@ export default function DashboardCarts() {
                             ))}
                         </tbody>
                     </Table>
-                    <p>Cart total: ${selectedCart.total.toFixed(2)}</p>
-                    <Button onClick={() => setSelectedCart(null)}>Close</Button>
+                    <p className="fw-bold">Cart total: ${selectedCart.total.toFixed(2)}</p>
+                    <Button variant="outline-secondary" size="sm" onClick={() => setSelectedCart(null)}>Close</Button>
                 </div>
             )}
 
+            <Row className="mb-3">
+            <Col xs={12} sm={6} md={4}>
             <Form.Control
                 type="number"
                 placeholder="Filter by user ID"
+                aria-label="Filter by user ID"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
             />
+            </Col>
+            </Row>
             {loading ? (
-                <p>Loading...</p>
+                <div className="loading-box">
+                    <Spinner animation="border" variant="primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
             ) : (
-                <Table>
+                <div className="table-surface souq-surface">
+                <Table hover striped responsive>
                     <thead>
                         <tr>
                             <th>Cart ID</th>
@@ -175,14 +200,17 @@ export default function DashboardCarts() {
                                 <td>{cart.totalQuantity}</td>
                                 <td>${cart.total.toFixed(2)}</td>
                                 <td>
-                                    <Button onClick={() => handleView(cart.id)}>View</Button>
-                                    <Button onClick={() => handleEdit(cart)}>Edit</Button>
-                                    <Button onClick={() => handleDelete(cart.id)}>Remove</Button>
+                                    <div className="table-actions">
+                                    <Button variant="outline-primary" size="sm" onClick={() => handleView(cart.id)}>View</Button>
+                                    <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(cart)}>Edit</Button>
+                                    <Button variant="outline-danger" size="sm" onClick={() => handleDelete(cart.id)}>Remove</Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
+                </div>
             )}
         </>
     );
