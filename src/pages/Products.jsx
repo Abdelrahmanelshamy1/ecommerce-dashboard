@@ -12,11 +12,16 @@ export default function Products() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [query, setQuery] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState("");
+    const [sortBy, setSortBy] = useState("title");
+    const [order, setOrder] = useState("asc");
 
 
     const handleSearch = (e) => {
         setQuery(e.target.value);
         setPage(1);
+        setCategory("");
     }
 
     useEffect(() => {
@@ -26,9 +31,11 @@ export default function Products() {
                 let url = "/products";
                 if (query) {
                     url = "/products/search";
+                } else if (category) {
+                    url = `/products/category/${category}`;
                 }
                 const response = await api.get(url, {
-                    params: { limit: LIMIT, skip: (page - 1) * LIMIT, q: query }
+                    params: { limit: LIMIT, skip: (page - 1) * LIMIT, q: query, sortBy, order }
                 });
                 setProducts(response.data.products);
                 setTotalPages(Math.ceil(response.data.total / LIMIT));
@@ -40,11 +47,48 @@ export default function Products() {
         }
         getProducts();
     }
-    , [page, query]);
+    , [page, query, sortBy, order, category]);
+
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const response = await api.get("/products/category-list");
+                setCategories(response.data);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+        getCategories();
+    }, []);
 
     return (
     <>
     <h1>Products</h1>
+    <Form.Select value={category} onChange={(e) => {
+        setCategory(e.target.value);
+        setPage(1);
+        setQuery("");
+    }}>
+        <option value="">All categories</option>
+        {categories.map((cat) => (
+            <option key={cat} value={cat}>{cat}</option>
+        ))}
+    </Form.Select>
+    <Form.Select value={sortBy} onChange={(e) => {
+        setSortBy(e.target.value);
+        setPage(1);
+    }}>
+        <option value="title">Sort by Title</option>
+        <option value="price">Sort by Price</option>
+        <option value="rating">Sort by Rating</option>
+    </Form.Select>
+    <Form.Select value={order} onChange={(e) => {
+        setOrder(e.target.value);
+        setPage(1);
+    }}>
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </Form.Select>
     <Form.Group>
         <Form.Label>Search Products</Form.Label>
         <Form.Control
