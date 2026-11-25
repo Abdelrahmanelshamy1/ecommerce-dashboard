@@ -1,6 +1,5 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProductCard from "./components/ProductCard";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import { Container } from "react-bootstrap";
@@ -9,9 +8,11 @@ import AppNavBar from "./components/AppNavbar";
 import { Toaster } from "react-hot-toast";
 import { useEffect,useState } from "react";
 import { api } from "./api/api";
+import { useDispatch } from "react-redux";
+import { setUser } from "./store/slices/authSlice";
 
 export default function App() {
-  const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect (() => {
     const token = localStorage.getItem("token");
@@ -21,7 +22,7 @@ export default function App() {
           const response = await api.get("/auth/me", { 
             headers: { Authorization: `Bearer ${token}` }
           });
-          setUserData(response.data);
+          dispatch(setUser(response.data));
         } catch (error) {
           console.error("Failed to fetch user data:", error);
           localStorage.removeItem("token");
@@ -29,7 +30,7 @@ export default function App() {
       }
       getUserData();
     }
-  }, []);
+  }, [dispatch]);
   return (
     <Container>
       <Toaster />
