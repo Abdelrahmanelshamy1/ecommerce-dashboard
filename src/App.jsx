@@ -6,7 +6,7 @@ import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 import AppNavBar from "./components/AppNavbar";
 import { Toaster } from "react-hot-toast";
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import { api } from "./api/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "./store/slices/authSlice";

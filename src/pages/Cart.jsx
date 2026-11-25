@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import { removeFromCart, clearCart } from "../store/slices/cartSlice";
 import toast from "react-hot-toast";
