@@ -13,6 +13,10 @@ import { setUser } from "./store/slices/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./pages/Cart";
 import DashboardProducts from "./pages/dashboard/DashboardProducts" 
+import DashboardCarts from "./pages/dashboard/DashboardCarts";
+import DashboardUsers from "./pages/dashboard/DashboardUsers";
+import Register from "./pages/Register";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -51,6 +55,14 @@ export default function App() {
           <Route path="/dashboard/products" Component={() => (
             <ProtectedRoute><DashboardProducts /></ProtectedRoute>
           )} />
+                    <Route path="/dashboard/carts" Component={() => (
+            <ProtectedRoute><DashboardCarts /></ProtectedRoute>
+          )} />
+          <Route path="/dashboard/users" Component={() => (
+            <ProtectedRoute><DashboardUsers /></ProtectedRoute>
+          )} />
+          <Route path="/register" Component={Register} />
+          <Route path="*" Component={NotFound} />
         </Routes>
     </Container>
   );
