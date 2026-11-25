@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import DashboardNav from "../../components/DashboardNav";
 import { api } from "../../api/api";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Form } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 
 export default function DashboardProducts() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [editingID, setEditingID] = useState(null);
+
     const handleDelete = async (id) => {
         try {
             await api.delete(`/products/${id}`);
@@ -15,6 +19,32 @@ export default function DashboardProducts() {
             toast.success("Product Deleted Successfully!")
         } catch (error) {
             toast.error("Couldn't Delete Product!");
+        }
+    }
+
+    const handleEdit = (product) => {
+        setEditingID(product.id);
+        setTitle(product.title);
+        setPrice(product.price);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (editingID) {
+                const response = await api.put(`/products/${editingID}`, { title, price: Number(price) });
+                setProducts(products.map((p) => (p.id === editingID ? response.data : p)));
+                toast.success("Changes Saved!");
+            } else {
+                const response = await api.post("/products/add", { title, price: Number(price) });
+                setProducts([response.data, ...products]);
+                toast.success("Product Added Successfully!");
+            }
+            setTitle("");
+            setPrice("");
+            setEditingID(null);
+        } catch (error){
+            toast.error("Something went wrong!")
         }
     }
 
@@ -39,6 +69,11 @@ export default function DashboardProducts() {
         <>
             <DashboardNav />
             <h1>Products Dashboard</h1>
+            <Form onSubmit={handleSubmit}>
+                <Form.Control placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                <Form.Control type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)}/>
+                <Button type="submit">{editingID ? "Save changes" : "Add product"}</Button>
+            </Form>
             <Table>
                 <thead>
                     <tr>
@@ -59,6 +94,9 @@ export default function DashboardProducts() {
                                 <td>
                                     <Button onClick={() => handleDelete(product.id)}>
                                         Remove
+                                    </Button>
+                                    <Button onClick={() => handleEdit(product)}>
+                                        Edit
                                     </Button>
                                 </td>
                             </tr>
