@@ -41,6 +41,9 @@ export default function AppNavbar() {
                 }}>
                     Cart {cartItems.length}
                 </Button>
+                <Button onClick={() => navigate("/dashboard/products")}>
+                    Dashboard
+                </Button>
                 </>
             )}
             {!user && (

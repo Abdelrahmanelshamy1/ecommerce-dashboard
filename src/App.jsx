@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./store/slices/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./pages/Cart";
+import DashboardProducts from "./pages/dashboard/DashboardProducts" 
 
 export default function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,9 @@ export default function App() {
             <ProtectedRoute>
               <Cart />
             </ProtectedRoute>
+          )} />
+          <Route path="/dashboard/products" Component={() => (
+            <ProtectedRoute><DashboardProducts /></ProtectedRoute>
           )} />
         </Routes>
     </Container>
