@@ -34,11 +34,11 @@ export default function Login() {
       <Form onSubmit={handleSubmit}>
         <Form.Group>
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
+            <Form.Control type="text" value={username} onChange={(event) => setUsername(event.target.value)} required/>
         </Form.Group>
         <Form.Group>
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
         </Form.Group>
         <Button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}

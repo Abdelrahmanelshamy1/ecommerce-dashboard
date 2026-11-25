@@ -19,6 +19,7 @@ export default function Register() {
         try {
             await api.post("/users/add", { firstName, lastName, email, username, password });
             toast.success("Account created!");
+            navigate("/");
         } catch (error) {
             toast.error("Register failed: " + error.response.data.message);
         } finally {

@@ -18,6 +18,7 @@ export default function DashboardProducts() {
             setProducts(products.filter((p) => p.id !== id))
             toast.success("Product Deleted Successfully!")
         } catch (error) {
+            console.error("Error deleting product:", error);
             toast.error("Couldn't Delete Product!");
         }
     }
@@ -44,7 +45,8 @@ export default function DashboardProducts() {
             setPrice("");
             setEditingID(null);
         } catch (error){
-            toast.error("Something went wrong!")
+            console.error("Error saving product:", error);
+            toast.error("Something went wrong!");
         }
     }
 
