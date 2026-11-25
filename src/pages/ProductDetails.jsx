@@ -2,13 +2,30 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { api } from "../api/api";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { addToCart } from "../store/slices/cartSlice";
 
 export default function ProductDetails() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+    const handleAddToCart = () => {
+        if (!user) {
+            toast.error("Please log in to add items to your cart.");
+            navigate("/login");
+            return;
+        }
+        dispatch(addToCart(product));
+        toast.success("Added to cart!");
+    }
 
     useEffect(() => {
+
         const getProduct = async () => {
             try {
                 const response = await api.get(`/products/${id}`);
@@ -53,7 +70,9 @@ export default function ProductDetails() {
                     <p>
                         Dimensions: {product.dimensions.width} x {product.dimensions.height} x {product.dimensions.depth}
                     </p>
-                    <Button variant="primary">Add to Cart</Button>
+                    <Button variant="primary" onClick={handleAddToCart}>
+                        Add to Cart
+                    </Button>
 
                     <h2>Reviews</h2>
                     {product.reviews.map((review, index) => (

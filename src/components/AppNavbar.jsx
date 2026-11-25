@@ -7,6 +7,7 @@ import { logout } from "../store/slices/authSlice";
 
 export default function AppNavbar() {
     const user = useSelector((state) => state.auth.user);
+    const cartItems = useSelector((state) => state.cart.items);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     return (
@@ -23,20 +24,38 @@ export default function AppNavbar() {
                     <Nav>
                         <Nav.Link eventKey="home" as={Link} to="/">Home</Nav.Link>
                         <Nav.Link eventKey="products" as={Link} to="/products">Products</Nav.Link>
-                        {!user && (
-                            <Nav.Link eventKey="login" as={Link} to="/login">Login</Nav.Link>
-                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
             {user && (
-                <Button variant="danger" onClick={() => {
+                <>
+                <Button onClick={() => {
                     localStorage.removeItem("token");
                     dispatch(logout());
                     navigate("/login");
                 }}>
                     Logout
                 </Button>
+                <Button onClick={() => {
+                    navigate("/cart");
+                }}>
+                    Cart {cartItems.length}
+                </Button>
+                </>
+            )}
+            {!user && (
+                <>
+                <Button onClick={() => {
+                    navigate("/login");
+                }}>
+                    Login
+                </Button>
+                <Button onClick={() => {
+                    navigate("/register");
+                }}>
+                    Register
+                </Button>
+                </>
             )}
         </>
     );

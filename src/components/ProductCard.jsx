@@ -9,6 +9,8 @@ export default function ProductCard({ product }) {
         <Card.Title>{product.title}</Card.Title>
         <Card.Text>{product.description}</Card.Text>
         <p>Price: ${product.price.toFixed(2)}</p>
+        <p>Rating: {product.rating}</p>
+        <p>{product.availabilityStatus}</p>
         <Button as={Link} to={`/product/${product.id}`}>
           View Details
         </Button>

@@ -10,6 +10,8 @@ import { useEffect,useState } from "react";
 import { api } from "./api/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "./store/slices/authSlice";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Cart from "./pages/Cart";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,6 +42,11 @@ export default function App() {
           <Route path="/products" Component={Products} />
           <Route path="/product/:id" Component={ProductDetails} />
           <Route path="/login" Component={Login} />
+          <Route path="/cart" Component={() => (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          )} />
         </Routes>
     </Container>
   );
